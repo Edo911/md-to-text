@@ -29,39 +29,34 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/atom-one-dark.min.css">
     
 <style>
- /* Desktop layout (default) */
+/* 1. Mobile-First: Base layout for phones */
     .container {
         display: flex !important;
-        flex-direction: row !important;
+        flex-direction: column !important;
         width: 100% !important;
+        overflow-x: hidden;
     }
 
     .editor-container, .preview-container {
-        width: 50% !important;
+        width: 100% !important;
+        flex: none !important;
     }
 
-    /* Mobile responsive layout (screens up to 600px) */
-    @media (max-width: 600px) {
+    .toolbar {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        gap: 5px !important;
+        padding: 5px !important;
+    }
+
+    /* 2. Desktop layout: When screen is wider than 600px */
+    @media (min-width: 601px) {
         .container {
-            display: flex !important;
-            flex-direction: column !important; /* Stack vertically */
-            width: 100% !important;
-            overflow-x: hidden; /* Prevent horizontal scrolling */
+            flex-direction: row !important;
         }
 
         .editor-container, .preview-container {
-            width: 100% !important; /* Full width */
-            height: auto !important; 
-            flex: none !important;
-        }
-
-        /* Toolbar optimization for mobile */
-        .toolbar {
-            display: flex !important;
-            flex-wrap: wrap !important; /* Wrap buttons to new lines */
-            gap: 5px !important;
-            padding: 5px !important;
-            width: 100% !important;
+            width: 50% !important;
         }
         :root { 
             --primary: #4f46e5; 
