@@ -29,7 +29,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/atom-one-dark.min.css">
     
 <style>
-/* 1. Reset for all devices (Mobile First) */
+/* 1. Base Styles (Mobile Default) */
     .container {
         display: flex !important;
         flex-direction: column !important;
@@ -38,7 +38,7 @@
 
     .editor-container, .preview-container {
         width: 100% !important;
-        flex: 1 1 auto !important;
+        flex: none !important;
     }
 
     .toolbar {
@@ -47,23 +47,18 @@
         gap: 5px !important;
     }
 
-    /* 2. Desktop-specific override (screens > 600px) */
+    /* 2. Desktop Styles (Override only when screen is wide) */
     @media (min-width: 601px) {
-        body {
-            display: flex !important;
-            flex-direction: column !important;
-        }
-
         .container {
-            display: flex !important;
-            flex-direction: row !important; /* Side by side */
-            height: 100vh !important;       /* Ensure full height usage */
+            flex-direction: row !important;
+            height: 90vh !important; /* Обмежуємо висоту для десктопа */
         }
 
         .editor-container, .preview-container {
             width: 50% !important;
             height: 100% !important;
         }
+    }
         :root { 
             --primary: #4f46e5; 
             --primary-hover: #4338ca;
