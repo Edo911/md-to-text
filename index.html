@@ -463,7 +463,7 @@
     function clearEditor() { if(confirm('Clear all content?')) { editor.value = ''; saveHistoryState(); render(); } }
     if(localStorage.getItem('theme') === 'dark') toggleTheme();
     
-    editor.value = localStorage.getItem('doc') || `# 🚀 Production-Ready Workstation\n\nThis codebase is optimized, secure, and ready for deployment on GitHub Pages!`;
+    editor.value = localStorage.getItem('doc') || `# 🚀 Welcome to MDtoTEXT!\n\nThis is a blazing fast, privacy-focused Markdown editor.\n\n### ✨ Key Features:\n* **Live Preview** — See changes instantly.\n* **Auto-Save** — Never lose your words.\n* **Pure Performance** — Zero tracking, runs entirely in your browser.\n\nStart writing here or clear the editor to begin!`;
     historyStack.push(editor.value); historyIndex = 0; render(true);
 </script>
 </body>
