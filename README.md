@@ -1,3 +1,8 @@
+![MDtoTEXT Preview](preview.png)
+[![GitHub license](https://img.shields.io/github/license/Edo911/md-to-text?style=flat-square&color=indigo)](https://github.com/Edo911/md-to-text/blob/main/LICENSE)
+[![GitHub repo size](https://img.shields.io/github/repo-size/Edo911/md-to-text?style=flat-square&color=blue)](https://github.com/Edo911/md-to-text)
+[![GitHub stars](https://img.shields.io/github/stars/Edo911/md-to-text?style=flat-square&color=gold)](https://github.com/Edo911/md-to-text/stargazers)
+[![GitHub last commit](https://img.shields.io/github/last-commit/Edo911/md-to-text?style=flat-square)](https://github.com/Edo911/md-to-text)
 # MDtoTEXT
 
 A blazing fast, zero-dependency, and completely autonomous Markdown editor that runs directly in your browser. No servers, no frameworks, no tracking — just pure performance and a clean writing space.
