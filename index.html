@@ -29,6 +29,15 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/atom-one-dark.min.css">
     
     <style>
+        @media (max-width: 768px) {
+  body {
+    flex-direction: column !important;
+  }
+  .container, .editor-container, .preview-container {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+}
         :root { 
             --primary: #4f46e5; 
             --primary-hover: #4338ca;
