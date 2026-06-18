@@ -29,17 +29,41 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/atom-one-dark.min.css">
     
     <style>
-    @media (max-width: 600px) {
-  body {
-    display: flex !important;
-    flex-direction: column !important;
-  }
-  .container {
-    flex-direction: column !important;
-  }
-  .editor-container, .preview-container {
-    width: 100% !important;
-  }
+        /* Base styles for desktop (default behavior) */
+.container {
+    display: flex;
+    flex-direction: row; 
+    width: 100%;
+}
+
+.editor-container, .preview-container {
+    width: 50%; 
+}
+
+/* Mobile responsive styles */
+@media (max-width: 600px) {
+    body {
+        display: block !important; 
+    }
+
+    .container {
+        display: flex;
+        flex-direction: column !important; 
+        width: 100% !important;
+    }
+
+    .editor-container, .preview-container {
+        width: 100% !important; 
+        flex: none;
+    }
+
+    /* Toolbar fix to prevent overflow */
+    .toolbar {
+        display: flex;
+        flex-wrap: wrap; 
+        gap: 5px;
+        padding: 5px;
+    }
         :root { 
             --primary: #4f46e5; 
             --primary-hover: #4338ca;
