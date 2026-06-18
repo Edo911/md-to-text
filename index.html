@@ -29,47 +29,40 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/atom-one-dark.min.css">
     
 <style>
-    /* 1. Ensure the container handles layout flow */
+ /* Desktop layout (default) */
     .container {
         display: flex !important;
         flex-direction: row !important;
         width: 100% !important;
-        flex-wrap: wrap !important;
     }
 
-    /* 2. Set dynamic width for editor and preview containers */
     .editor-container, .preview-container {
-        flex: 1 1 45% !important; 
-        min-width: 300px !important; 
+        width: 50% !important;
     }
 
-    /* 3. Mobile responsive styles */
+    /* Mobile responsive layout (screens up to 600px) */
     @media (max-width: 600px) {
         .container {
-            flex-direction: column !important;
-        }
-        
-        .editor-container, .preview-container {
+            display: flex !important;
+            flex-direction: column !important; /* Stack vertically */
             width: 100% !important;
-            min-width: 100% !important;
+            overflow-x: hidden; /* Prevent horizontal scrolling */
         }
-    }
 
-    /* 4. Toolbar fix to prevent overflow */
-    .toolbar {
-        display: flex !important;
-        flex-wrap: wrap !important;
-        gap: 8px !important;
-        padding: 10px !important;
-        width: 100% !important;
-    }
+        .editor-container, .preview-container {
+            width: 100% !important; /* Full width */
+            height: auto !important; 
+            flex: none !important;
+        }
 
-    /* 5. Ensure body height doesn't break layout */
-    html, body {
-        height: auto !important;
-        min-height: 100vh !important;
-        overflow-x: hidden;
-    }
+        /* Toolbar optimization for mobile */
+        .toolbar {
+            display: flex !important;
+            flex-wrap: wrap !important; /* Wrap buttons to new lines */
+            gap: 5px !important;
+            padding: 5px !important;
+            width: 100% !important;
+        }
         :root { 
             --primary: #4f46e5; 
             --primary-hover: #4338ca;
