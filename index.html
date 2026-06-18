@@ -29,34 +29,40 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/atom-one-dark.min.css">
     
 <style>
-/* 1. Mobile-First: Base layout for phones */
+/* 1. Reset for all devices (Mobile First) */
     .container {
         display: flex !important;
         flex-direction: column !important;
         width: 100% !important;
-        overflow-x: hidden;
     }
 
     .editor-container, .preview-container {
         width: 100% !important;
-        flex: none !important;
+        flex: 1 1 auto !important;
     }
 
     .toolbar {
         display: flex !important;
         flex-wrap: wrap !important;
         gap: 5px !important;
-        padding: 5px !important;
     }
 
-    /* 2. Desktop layout: When screen is wider than 600px */
+    /* 2. Desktop-specific override (screens > 600px) */
     @media (min-width: 601px) {
+        body {
+            display: flex !important;
+            flex-direction: column !important;
+        }
+
         .container {
-            flex-direction: row !important;
+            display: flex !important;
+            flex-direction: row !important; /* Side by side */
+            height: 100vh !important;       /* Ensure full height usage */
         }
 
         .editor-container, .preview-container {
             width: 50% !important;
+            height: 100% !important;
         }
         :root { 
             --primary: #4f46e5; 
