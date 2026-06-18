@@ -28,41 +28,47 @@
     <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/atom-one-dark.min.css">
     
-    <style>
-        /* Base styles for desktop (default behavior) */
-.container {
-    display: flex;
-    flex-direction: row; 
-    width: 100%;
-}
-
-.editor-container, .preview-container {
-    width: 50%; 
-}
-
-/* Mobile responsive styles */
-@media (max-width: 600px) {
-    body {
-        display: block !important; 
+<style>
+    /* 1. Ensure the container handles layout flow */
+    .container {
+        display: flex !important;
+        flex-direction: row !important;
+        width: 100% !important;
+        flex-wrap: wrap !important;
     }
 
-    .container {
-        display: flex;
-        flex-direction: column !important; 
+    /* 2. Set dynamic width for editor and preview containers */
+    .editor-container, .preview-container {
+        flex: 1 1 45% !important; 
+        min-width: 300px !important; 
+    }
+
+    /* 3. Mobile responsive styles */
+    @media (max-width: 600px) {
+        .container {
+            flex-direction: column !important;
+        }
+        
+        .editor-container, .preview-container {
+            width: 100% !important;
+            min-width: 100% !important;
+        }
+    }
+
+    /* 4. Toolbar fix to prevent overflow */
+    .toolbar {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        gap: 8px !important;
+        padding: 10px !important;
         width: 100% !important;
     }
 
-    .editor-container, .preview-container {
-        width: 100% !important; 
-        flex: none;
-    }
-
-    /* Toolbar fix to prevent overflow */
-    .toolbar {
-        display: flex;
-        flex-wrap: wrap; 
-        gap: 5px;
-        padding: 5px;
+    /* 5. Ensure body height doesn't break layout */
+    html, body {
+        height: auto !important;
+        min-height: 100vh !important;
+        overflow-x: hidden;
     }
         :root { 
             --primary: #4f46e5; 
