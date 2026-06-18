@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚀 MDtoTEXT - Ultra Markdown Editor Pro+</title>
+    
+    <!-- Dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/atom-one-dark.min.css">
+    
+    <style>
+        :root { 
+            --primary: #4f46e5; 
+            --primary-hover: #4338ca;
+            --bg: #f8fafc; 
+            --panel-bg: #ffffff;
+            --text: #1e293b; 
+            --text-secondary: #64748b;
+            --border: #e2e8f0;
+            --textarea-bg: #fdfdfd;
+            --success: #22c55e;
+            --warning: #f59e0b;
+            --scrollbar-thumb: #cbd5e1;
+        }
+        [data-theme="dark"] {
+            --bg: #0f172a; 
+            --panel-bg: #1e293b;
+            --text: #f8fafc; 
+            --text-secondary: #94a3b8;
+            --border: #334155;
+            --textarea-bg: #151d30;
+            --scrollbar-thumb: #475569;
+        }
+        * { box-sizing: border-box; transition: background-color 0.15s, border-color 0.15s; }
+        
+        /* Custom Modern Scrollbars */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 20px; }
+        
+        body { 
+            margin: 0; 
+            font-family: 'Inter', system-ui, sans-serif; 
+            background: var(--bg); 
+            color: var(--text); 
+            height: 100vh; 
+            display: flex; 
+            flex-direction: column; 
+            overflow: hidden;
+            text-rendering: optimizeLegibility;
+            -webkit-font-smoothing: antialiased;
+        }
+        #progress-bar {
+            position: fixed; top: 0; left: 0; height: 3px; background: var(--primary); width: 0%; z-index: 9999; transition: width 0.1s;
+        }
+        header { 
+            background: var(--panel-bg); padding: 12px 24px; border-bottom: 1px solid var(--border); display: flex; gap: 12px; align-items: center; box-shadow: 0 1px 3px rgba(0,0,0,0.05); 
+        }
+        .logo { font-weight: 800; font-size: 1.2rem; margin-right: auto; color: var(--primary); text-decoration: none; letter-spacing: -0.5px; }
+        .actions-group { display: flex; gap: 8px; }
+        .container { display: flex; flex: 1; overflow: hidden; padding: 16px 20px 4px 20px; gap: 20px; }
+        .panel { flex: 1; display: flex; flex-direction: column; background: var(--panel-bg); border-radius: 12px; border: 1px solid var(--border); overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
+        .panel.hidden { display: none !important; }
+        .panel-header { background: var(--bg); padding: 6px 16px; font-size: 0.8rem; font-weight: 700; color: var(--text-secondary); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+        .toolbar { display: flex; gap: 4px; align-items: center; position: relative; }
+        .toolbar-btn { background: transparent; color: var(--text); border: 1px solid transparent; padding: 4px 8px; border-radius: 4px; font-size: 0.85rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 2px; user-select: none; }
+        .toolbar-btn:hover { background: var(--border); }
+        .toolbar-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+        .divider { width: 1px; height: 16px; background: var(--border); margin: 0 4px; }
+        .header-btn { background: transparent; border: none; color: var(--primary); cursor: pointer; font-weight: 600; font-size: 0.75rem; padding: 2px 6px; border-radius: 4px; }
+        .header-btn:hover { background: var(--border); }
+        
+        .find-replace-bar { background: var(--bg); padding: 6px 16px; border-bottom: 1px solid var(--border); display: flex; gap: 8px; align-items: center; font-size: 0.8rem; }
+        .find-replace-bar input { background: var(--panel-bg); border: 1px solid var(--border); color: var(--text); padding: 4px 8px; border-radius: 6px; outline: none; width: 180px; }
+        .find-replace-bar input:focus { border-color: var(--primary); }
+        
+        .find-click-btn {
+            cursor: pointer; background: var(--primary); color: white;
+            font-weight: bold; padding: 5px 12px; border-radius: 6px;
+            user-select: none; display: inline-flex; align-items: center; gap: 4px; border: none;
+        }
+        .find-click-btn:hover { background: var(--primary-hover); }
+        
+        /* 😃 Mega Emoji Picker Panel */
+        .emoji-dropdown { position: relative; display: inline-block; }
+        .emoji-picker {
+            position: absolute; top: 100%; left: 0; z-index: 1000;
+            background: var(--panel-bg); border: 1px solid var(--border);
+            border-radius: 8px; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.15);
+            width: 320px; max-height: 350px; overflow-y: auto; display: none; padding: 12px;
+        }
+        .emoji-picker.show { display: block; }
+        .emoji-section-title { font-size: 0.75rem; font-weight: bold; color: var(--text-secondary); margin: 10px 0 6px 0; text-transform: uppercase; border-bottom: 1px solid var(--border); padding-bottom: 2px; }
+        .emoji-grid { display: grid; grid-template-columns: repeat(8, 1fr); gap: 6px; }
+        .emoji-item { text-align: center; font-size: 1.25rem; padding: 4px; cursor: pointer; border-radius: 6px; user-select: none; }
+        .emoji-item:hover { background: var(--border); transform: scale(1.15); transition: transform 0.1s; }
+
+        /* 🛠️ Editor Engine */
+        .editor-wrapper { flex: 1; position: relative; background: var(--textarea-bg); overflow: hidden; }
+        textarea, .editor-backdrop, .preview-body { padding: 24px; font-size: 15px; line-height: 1.6; border: none; outline: none; }
+        textarea, .editor-backdrop {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            font-family: 'Fira Code', Consolas, Monaco, monospace;
+            white-space: pre-wrap; word-wrap: break-word;
+            margin: 0; box-sizing: border-box;
+        }
+        textarea { background: transparent !important; color: var(--text); resize: none; z-index: 2; caret-color: var(--text); overflow-y: auto; }
+        .editor-backdrop { color: transparent; z-index: 1; pointer-events: none; overflow: hidden; background: transparent; }
+        .preview-body { flex: 1; background: var(--panel-bg); color: var(--text); overflow-y: auto; scroll-behavior: smooth; }
+        
+        /* Preview Internal HTML Styles */
+        .preview-body table { border-collapse: collapse; width: 100%; margin: 20px 0; font-size: 0.95rem; }
+        .preview-body th, .preview-body td { border: 1px solid var(--border); padding: 10px 14px; text-align: left; }
+        .preview-body th { background: var(--bg); font-weight: 700; }
+        .preview-body ul, .preview-body ol { padding-left: 24px; margin: 14px 0; }
+        .preview-body li { margin-bottom: 6px; }
+        .preview-body blockquote { margin: 16px 0; padding: 6px 20px; border-left: 4px solid var(--primary); color: var(--text-secondary); background: var(--bg); border-radius: 0 6px 6px 0; }
+        .preview-body input[type="checkbox"] { margin-right: 6px; vertical-align: middle; }
+
+        /* Highlight search */
+        mark.search-match { background: #fde047; color: #000; padding: 1px 2px; border-radius: 2px; box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
+        mark.search-match.current-focus { background: #ea580c !important; color: #fff !important; } 
+        .editor-backdrop mark { background: rgba(253, 224, 71, 0.4); color: transparent; border-radius: 2px; }
+        .editor-backdrop mark.current-focus { background: rgba(234, 88, 12, 0.7) !important; }
+
+        /* Buttons & Status */
+        button.main-btn { padding: 8px 16px; border-radius: 8px; border: none; background: var(--primary); color: white; cursor: pointer; font-weight: 600; font-size: 0.85rem; }
+        button.main-btn:hover { background: var(--primary-hover); }
+        .btn-danger { background: #ef4444 !important; }
+        .btn-danger:hover { background: #dc2626 !important; }
+        .btn-secondary { background: var(--bg) !important; color: var(--text) !important; border: 1px solid var(--border) !important; }
+        .btn-secondary:hover { background: var(--border) !important; }
+        
+        .status-bar { padding: 6px 24px; font-size: 0.75rem; color: var(--text-secondary); display: flex; gap: 16px; align-items: center; justify-content: flex-end; border-top: 1px solid var(--border); background: var(--panel-bg); }
+        .save-indicator { margin-right: auto; font-weight: bold; display: flex; align-items: center; gap: 6px; }
+        .save-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--success); display: inline-block; }
+        .save-dot.saving { background: var(--warning); animation: blink 1s infinite; }
+
+        @keyframes blink { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
+    </style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+<input type="file" id="universal-file-picker" style="display: none;" accept=".md,.txt" onchange="handleUniversalFile(this)">
+
+<header>
+    <a href="#" class="logo">🚀 MDtoTEXT</a>
+    <div class="actions-group">
+        <button onclick="triggerUniversalOpen()" class="main-btn btn-secondary">📂 Open File</button>
+        <button onclick="triggerUniversalSave()" class="main-btn btn-secondary">💾 Save As</button>
+        <div class="divider" style="height:34px;"></div>
+        <button onclick="window.print()" class="main-btn btn-secondary">🖨️ Print</button>
+        <button onclick="toggleTheme()" class="main-btn btn-secondary" id="theme-btn">🌙 Dark Mode</button>
+        <button onclick="exportWordSecure()" class="main-btn">Export Word</button>
+        <button onclick="clearEditor()" class="main-btn btn-danger">🗑️ Clear</button>
+    </div>
+</header>
+
+<div class="container">
+    <div class="panel" id="editor-panel">
+        <div class="panel-header">
+            <span>
+                <div class="toolbar">
+                    <button class="toolbar-btn" id="undo-btn" onclick="undo()" title="Undo (Ctrl+Z)">↩️</button>
+                    <button class="toolbar-btn" id="redo-btn" onclick="redo()" title="Redo (Ctrl+Y)">↪️</button>
+                    <div class="divider"></div>
+                    <button class="toolbar-btn" onclick="insertText('**', '**')">B</button>
+                    <button class="toolbar-btn" onclick="insertText('*', '*')">I</button>
+                    <button class="toolbar-btn" onclick="insertText('`', '`')">Code</button>
+                    <button class="toolbar-btn" onclick="insertText('# ', '')">H1</button>
+                    <button class="toolbar-btn" onclick="insertText('[', '](url)')">🔗 Link</button>
+                    <button class="toolbar-btn" onclick="insertText('- [ ] ', '')">☑️ Todo</button>
+                    
+                    <div class="emoji-dropdown">
+                        <button class="toolbar-btn" onclick="toggleEmojiPicker(event)">😃 Emoji Panel ▾</button>
+                        <div id="emoji-picker-container" class="emoji-picker">
+                            <div class="emoji-section-title">🔥 Tech & Action</div><div class="emoji-grid" id="emojis-popular"></div>
+                            <div class="emoji-section-title">💻 Development</div><div class="emoji-grid" id="emojis-tech"></div>
+                            <div class="emoji-section-title">🎨 Work & UI</div><div class="emoji-grid" id="emojis-symbols"></div>
+                            <div class="emoji-section-title">😀 Faces & Mood</div><div class="emoji-grid" id="emojis-faces"></div>
+                            <div class="emoji-section-title">👍 Gestures</div><div class="emoji-grid" id="emojis-gestures"></div>
+                            <div class="emoji-section-title">💎 Icons & Objects</div><div class="emoji-grid" id="emojis-objects"></div>
+                        </div>
+                    </div>
+                </div>
+            </span>
+            <button class="header-btn" onclick="toggleFocus('editor')">[ ↔ ] Fullscreen</button>
+        </div>
+        <div class="find-replace-bar">
+            <button class="find-click-btn" onclick="scrollToNextMatch()">🔍 Find</button>
+            <input type="text" id="find-txt" placeholder="Search text...">
+            <span>🔄 Replace:</span><input type="text" id="replace-txt" placeholder="With...">
+            <button class="header-btn" onclick="executeReplace()">Replace All</button>
+        </div>
+        <div class="editor-wrapper">
+            <div id="backdrop" class="editor-backdrop"></div>
+            <textarea id="editor" placeholder="Start typing..." spellcheck="false"></textarea>
+        </div>
+    </div>
+    
+    <div class="panel" id="preview-panel">
+        <div class="panel-header">
+            <span>👁️ LIVE PREVIEW</span>
+            <button class="header-btn" onclick="toggleFocus('preview')">[ ↔ ] Fullscreen</button>
+        </div>
+        <div id="preview" class="preview-body"></div>
+    </div>
+</div>
+
+<div class="status-bar">
+    <div class="save-indicator">
+        <span id="save-dot" class="save-dot"></span>
+        <span id="save-status">● Saved</span>
+    </div>
+    <span id="stat-words">Words: 0</span>
+    <span id="stat-chars">Chars: 0</span>
+    <span id="stat-paragraphs">Paragraphs: 0</span>
+    <span id="stat-sentences">Sentences: 0</span>
+    <span id="stat-readability">Readability: -</span>
+</div>
+
+<script>
+    const editor = document.getElementById('editor');
+    const backdrop = document.getElementById('backdrop');
+    const preview = document.getElementById('preview');
+    const ePanel = document.getElementById('editor-panel');
+    const pPanel = document.getElementById('preview-panel');
+    const findInput = document.getElementById('find-txt');
+    const emojiPicker = document.getElementById('emoji-picker-container');
+
+    let historyStack = [];
+    let historyIndex = -1;
+    const maxHistorySize = 30;
+    let currentMatchIndex = -1;
+    let isSaving = false;
+
+    const emojiDataset = {
+        popular: ['🚀', '✨', '🔥', '💡', '✅', '❌', '⭐', '💥'],
+        tech: ['💻', '📱', '⚙️', '📊', '🛠️', '🔒', '📂', '🌐'],
+        symbols: ['📝', '📌', '🔍', '🔄', '⏱️', '⚠️', 'ℹ️', '💎'],
+        faces: ['😀', '😎', '😉', '🤩', '😮', '🤔', '🥳', '🤯'],
+        gestures: ['👍', '🙌', '👏', '🤝', '✌️', '👋', '👊', '👀'],
+        objects: ['🎨', '📚', '🎯', '📢', '🔔', '📅', '🔑', '📦']
+    };
+
+    function buildEmojiPickers() {
+        for (let category in emojiDataset) {
+            const grid = document.getElementById(`emojis-${category}`);
+            emojiDataset[category].forEach(emoji => {
+                const el = document.createElement('span'); el.className = 'emoji-item'; el.innerText = emoji;
+                el.onclick = (e) => { e.stopPropagation(); insertText(emoji, ''); emojiPicker.classList.remove('show'); };
+                grid.appendChild(el);
+            });
+        }
+    }
+    buildEmojiPickers();
+    function toggleEmojiPicker(e) { e.stopPropagation(); emojiPicker.classList.toggle('show'); }
+    window.addEventListener('click', () => emojiPicker.classList.remove('show'));
+
+    marked.setOptions({ gfm: true, breaks: true });
+
+    function triggerUniversalOpen() { document.getElementById('universal-file-picker').click(); }
+    function handleUniversalFile(input) {
+        const file = input.files[0]; if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (e) => { editor.value = e.target.result; saveHistoryState(); render(); };
+        reader.readAsText(file); input.value = '';
+    }
+
+    function triggerUniversalSave() {
+        const blob = new Blob([editor.value], { type: 'text/markdown;charset=utf-8' });
+        const link = document.createElement('a'); link.href = URL.createObjectURL(blob);
+        link.download = 'document.md'; link.click(); URL.revokeObjectURL(link.href);
+    }
+
+    function exportWordSecure() {
+        const htmlContent = `
+          <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+          <head><title>Export</title><style>body { font-family: Arial, sans-serif; }</style></head>
+          <body>${preview.innerHTML}</body></html>
+        `;
+        const blob = new Blob(['\ufeff' + htmlContent], { type: 'application/msword' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a'); a.href = url; a.download = 'document.doc'; a.click(); URL.revokeObjectURL(url);
+    }
+
+    // ⏳ HISTORY ENGINE
+    function saveHistoryState() {
+        if (historyIndex < historyStack.length - 1) { historyStack = historyStack.slice(0, historyIndex + 1); }
+        historyStack.push(editor.value);
+        if (historyStack.length > maxHistorySize) historyStack.shift();
+        historyIndex = historyStack.length - 1; updateHistoryButtons();
+    }
+    function undo() { if (historyIndex > 0) { historyIndex--; editor.value = historyStack[historyIndex]; render(true); } }
+    function redo() { if (historyIndex < historyStack.length - 1) { historyIndex++; editor.value = historyStack[historyIndex]; render(true); } }
+    function updateHistoryButtons() {
+        document.getElementById('undo-btn').disabled = (historyIndex <= 0);
+        document.getElementById('redo-btn').disabled = (historyIndex >= historyStack.length - 1);
+    }
+
+    // ⌨️ SMART AUTO-CLOSE ENGINE
+    const pairs = { '{': '}', '[': ']', '(': ')', '"': '"', "'": "'", '`': '`', '*': '*', '_': '_', '~': '~' };
+    editor.addEventListener('keydown', (e) => {
+        if (pairs[e.key] !== undefined) {
+            const start = editor.selectionStart, end = editor.selectionEnd;
+            if (start !== end) {
+                e.preventDefault();
+                const text = editor.value;
+                const selected = text.substring(start, end);
+                editor.value = text.substring(0, start) + e.key + selected + pairs[e.key] + text.substring(end);
+                editor.setSelectionRange(start + 1, end + 1);
+                saveHistoryState(); render();
+            }
+        }
+    });
+
+    findInput.addEventListener('input', () => { currentMatchIndex = -1; render(true); });
+    findInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); scrollToNextMatch(); } });
+
+    function scrollToNextMatch() {
+        const query = findInput.value.trim(); if (!query) return;
+        const previewMatches = preview.querySelectorAll('mark.search-match');
+        const backdropMatches = backdrop.querySelectorAll('mark');
+        if (previewMatches.length === 0) return;
+        currentMatchIndex = (currentMatchIndex + 1) % previewMatches.length;
+
+        document.querySelectorAll('.current-focus').forEach(el => el.classList.remove('current-focus'));
+        if (previewMatches[currentMatchIndex]) {
+            previewMatches[currentMatchIndex].classList.add('current-focus');
+            previewMatches[currentMatchIndex].scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        if (backdropMatches[currentMatchIndex]) {
+            backdropMatches[currentMatchIndex].classList.add('current-focus');
+            editor.scrollTo({ top: backdropMatches[currentMatchIndex].offsetTop - (editor.clientHeight / 2), behavior: 'smooth' });
+        }
+    }
+
+    editor.addEventListener('scroll', () => {
+        backdrop.scrollTop = editor.scrollTop; backdrop.scrollLeft = editor.scrollLeft;
+        const ratio = editor.scrollTop / (editor.scrollHeight - editor.clientHeight);
+        preview.scrollTop = ratio * (preview.scrollHeight - preview.clientHeight);
+        document.getElementById('progress-bar').style.width = (ratio * 100) + '%';
+    });
+
+    function insertText(before, after) {
+        const start = editor.selectionStart, end = editor.selectionEnd, text = editor.value;
+        const selected = text.substring(start, end);
+        editor.value = text.substring(0, start) + before + selected + after + text.substring(end);
+        editor.focus(); editor.setSelectionRange(start + before.length, start + before.length + selected.length);
+        saveHistoryState(); render();
+    }
+
+    function executeReplace() {
+        if (!findInput.value) return;
+        editor.value = editor.value.replaceAll(findInput.value, document.getElementById('replace-txt').value);
+        findInput.value = ''; currentMatchIndex = -1; saveHistoryState(); render();
+    }
+
+    function updateMetrics(text) {
+        const clean = text.trim(); const chars = text.length;
+        const words = clean === '' ? 0 : clean.split(/\s+/).length;
+        const paragraphs = clean === '' ? 0 : clean.split(/\n\s*\n/).length;
+        const sentences = clean === '' ? 0 : clean.split(/[.!?]+/).filter(s => s.trim().length > 0).length;
+
+        let readability = "Easy";
+        if (words > 5 && sentences > 0) {
+            const index = 0.0588 * ((chars / words) * 100) - 0.296 * ((sentences / words) * 100) - 15.8;
+            if (index > 12) readability = "Advanced 🧠";
+            else if (index > 7) readability = "Intermediate 📊";
+            else readability = "Standard 👍";
+        } else if (words === 0) { readability = "-"; }
+
+        document.getElementById('stat-words').innerText = `Words: ${words}`;
+        document.getElementById('stat-chars').innerText = `Chars: ${chars}`;
+        document.getElementById('stat-paragraphs').innerText = `Paragraphs: ${paragraphs}`;
+        document.getElementById('stat-sentences').innerText = `Sentences: ${sentences}`;
+        document.getElementById('stat-readability').innerText = `Readability: ${readability}`;
+    }
+
+    function highlightPreviewNodes(rootElement, matchText) {
+        if (!matchText.trim()) return;
+        const regex = new RegExp(`(${matchText.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')})`, 'gi');
+        const walker = document.createTreeWalker(rootElement, NodeFilter.SHOW_TEXT, null, false);
+        const nodesToReplace = [];
+        while (walker.nextNode()) {
+            const node = walker.currentNode;
+            if (node.parentNode.nodeName !== 'SCRIPT' && node.parentNode.nodeName !== 'STYLE' && node.nodeValue.match(regex)) nodesToReplace.push(node);
+        }
+        nodesToReplace.forEach(node => {
+            const span = document.createElement('span'); span.innerHTML = node.nodeValue.replace(regex, '<mark class="search-match">$1</mark>');
+            node.parentNode.replaceChild(span, node);
+        });
+    }
+
+    function applyBackdropHighlights(text, matchText) {
+        if (!matchText.trim()) { backdrop.innerHTML = text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;') + '\n'; return; }
+        let escapedText = text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        const regex = new RegExp(`(${matchText.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')})`, 'gi');
+        backdrop.innerHTML = escapedText.replace(regex, '<mark>$1</mark>') + '\n';
+    }
+
+    function toggleFocus(mode) { if (mode === 'editor') pPanel.classList.toggle('hidden'); if (mode === 'preview') ePanel.classList.toggle('hidden'); }
+    function toggleTheme() {
+        const dark = document.body.getAttribute('data-theme') === 'dark';
+        document.body.setAttribute('data-theme', dark ? 'light' : 'dark');
+        document.getElementById('theme-btn').innerText = dark ? '🌙 Dark Mode' : '☀️ Light Mode';
+        localStorage.setItem('theme', dark ? 'light' : 'dark');
+    }
+
+    async function render(skipHistory = false) {
+        const val = editor.value; preview.innerHTML = marked.parse(val); updateMetrics(val);
+        applyBackdropHighlights(val, findInput.value);
+        if (findInput.value.trim() !== '') highlightPreviewNodes(preview, findInput.value);
+        
+        if (!skipHistory) {
+            isSaving = true;
+            const dot = document.getElementById('save-dot'); const status = document.getElementById('save-status');
+            dot.className = 'save-dot saving'; status.innerText = '● Saving...';
+            clearTimeout(window.saveTimeout);
+            window.saveTimeout = setTimeout(() => {
+                localStorage.setItem('doc', val);
+                dot.className = 'save-dot'; status.innerText = '● Saved';
+                isSaving = false;
+            }, 500);
+        }
+        updateHistoryButtons();
+    }
+
+    editor.addEventListener('input', () => {
+        clearTimeout(window.historyTimeout);
+        window.historyTimeout = setTimeout(() => { saveHistoryState(); }, 400); render();
+    });
+
+    window.addEventListener('keydown', (e) => {
+        if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'z') { e.preventDefault(); undo(); }
+        if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'y') { e.preventDefault(); redo(); }
+    });
+
+    window.addEventListener('beforeunload', (e) => {
+        if (isSaving) { e.preventDefault(); e.returnValue = ''; }
+    });
+
+    function clearEditor() { if(confirm('Clear all content?')) { editor.value = ''; saveHistoryState(); render(); } }
+    if(localStorage.getItem('theme') === 'dark') toggleTheme();
+    
+    editor.value = localStorage.getItem('doc') || `# 🚀 Production-Ready Workstation\n\nThis codebase is optimized, secure, and ready for deployment on GitHub Pages!`;
+    historyStack.push(editor.value); historyIndex = 0; render(true);
+</script>
+</body>
+</html>
