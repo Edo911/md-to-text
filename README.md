@@ -5,6 +5,11 @@
 [![GitHub last commit](https://img.shields.io/github/last-commit/Edo911/md-to-text?style=flat-square)](https://github.com/Edo911/md-to-text)
 # MDtoTEXT
 
+## 🔗 Live Demo
+🚀 **Try the app live on Vercel:** [MDToTEXT](https://md-to-text.vercel.app)
+
+---
+
 A blazing fast, zero-dependency, and completely autonomous Markdown editor that runs directly in your browser. No servers, no frameworks, no tracking — just pure performance and a clean writing space.
 
 ---
