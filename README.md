@@ -1,4 +1,4 @@
-![MDtoTEXT Preview](preview.png)
+![MDtoTEXT Preview](https://github.com/Edo911/md-to-text/blob/main/mdtxt.png)
 [![GitHub license](https://img.shields.io/github/license/Edo911/md-to-text?style=flat-square&color=indigo)](https://github.com/Edo911/md-to-text/blob/main/LICENSE)
 [![GitHub repo size](https://img.shields.io/github/repo-size/Edo911/md-to-text?style=flat-square&color=blue)](https://github.com/Edo911/md-to-text)
 [![GitHub stars](https://img.shields.io/github/stars/Edo911/md-to-text?style=flat-square&color=gold)](https://github.com/Edo911/md-to-text/stargazers)
