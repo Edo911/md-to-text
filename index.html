@@ -4,197 +4,195 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="google-site-verification" content="4_uJD1Pa9tz28UvX-WLFd4uoRt8eehhyAs5GSIwvRgI" />
-    <title>MDtoTEXT — Fast Online Markdown Editor with Live Preview</title>
-    <meta name="description" content="A blazing fast, privacy-focused, and completely autonomous browser-based Markdown editor with live preview, word counter, and auto-save.">
-    <meta name="keywords" content="mdtotext, markdown, markdown editor, online editor, wysiwyg, preview, vanilla js, writing app, html converter">
+    <title>MDtoTEXT — Premium Enterprise Markdown Editor & WYSIWYG Live Preview Converter</title>
+    <meta name="description" content="MDtoTEXT is a blazing fast, privacy-focused, and completely autonomous browser-based Markdown editor with real-time WYSIWYG live preview, advanced word counter, and instant local auto-save.">
+    <meta name="keywords" content="mdtotext, markdown editor, online markdown editor, wysiwyg markdown, live preview markdown, vanilla js markdown, offline markdown writer, html web converter">
     <meta name="author" content="Edo911">
-    
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='grad' x1='0%25' y1='100%25' x2='100%25' y2='0%25'%3E%3Cstop offset='0%25' stop-color='%234f46e5'/%3E%3Cstop offset='100%25' stop-color='%23818cf8'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='16' cy='16' r='14' fill='url(%23grad)'/%3E%3Cpath d='M9 14L6 16L9 18M23 14L26 16L23 18' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' fill='none' opacity='0.6'/%3E%3Cpath d='M16 7C17.5 10 18 12 18 15C18 18 17.5 20 16 22C14.5 20 14 18 14 15C14 12 14.5 10 16 7Z' fill='white'/%3E%3Cpath d='M14 20L12 24L16 22L20 24L18 20' fill='%23fbbf24'/%3E%3C/svg%3E">
-
+   
     <meta property="og:type" content="website">
-    <meta property="og:title" content="MDtoTEXT — Fast Online Markdown Editor">
-    <meta property="og:description" content="Privacy-focused Markdown editor right in your browser. Zero tracking, pure performance.">
-    <meta property="og:image" content="https://mdtotext.com/preview.png">
-    
+    <meta property="og:url" content="https://md-to-text.vercel.app/">
+    <meta property="og:title" content="MDtoTEXT — Premium Enterprise Markdown Editor">
+    <meta property="og:description" content="Privacy-focused enterprise Markdown editor right in your browser. Zero tracking, pure real-time WYSIWYG performance with multi-format data exports.">
+    <meta property="og:image" content="https://md-to-text.vercel.app/preview.png">
+   
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='grad' x1='0%25' y1='100%25' x2='100%25' y2='0%25'%3E%3Cstop offset='0%25' stop-color='%234f46e5'/%3E%3Cstop offset='100%25' stop-color='%23818cf8'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='16' cy='16' r='14' fill='url(%23grad)'/%3E%3Cpath d='M9 14L6 16L9 18M23 14L26 16L23 18' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' fill='none' opacity='0.6'/%3E%3Cpath d='M16 7C17.5 10 18 12 18 15C18 18 17.5 20 16 22C14.5 20 14 18 14 15C14 12 14.5 10 16 7Z' fill='white'/%3E%3Cpath d='M14 20L12 24L16 22L20 24L18 20' fill='%23fbbf24'/%3E%3C/svg%3E">
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"></script>
     <script src="https://unpkg.com/turndown/dist/turndown.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.9.0/styles/atom-one-dark.min.css">
-    
+   
     <style>
-        :root { 
-            --primary: #4f46e5; 
-            --primary-hover: #4338ca; 
-            --bg: #f8fafc; 
+        :root {
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --bg: #f8fafc;
             --panel-bg: #ffffff;
-            --text: #1e293b; 
-            --text-secondary: #64748b; 
-            --border: #e2e8f0; 
+            --text: #1e293b;
+            --text-secondary: #64748b;
+            --border: #e2e8f0;
             --textarea-bg: #fdfdfd;
-            --success: #22c55e; 
-            --warning: #f59e0b; 
+            --success: #22c55e;
             --scrollbar-thumb: #cbd5e1;
+            --search-match: #fef08a;
+            --search-match-text: #0f172a;
         }
         [data-theme="dark"] {
-            --bg: #0f172a; 
-            --panel-bg: #1e293b; 
-            --text: #f8fafc; 
+            --bg: #0f172a;
+            --panel-bg: #1e293b;
+            --text: #f8fafc;
             --text-secondary: #94a3b8;
-            --border: #334155; 
-            --textarea-bg: #151d30; 
+            --border: #334155;
+            --textarea-bg: #151d30;
             --scrollbar-thumb: #475569;
+            --search-match: #854d0e;
+            --search-match-text: #fef08a;
         }
-
         * { box-sizing: border-box; transition: background-color 0.15s, border-color 0.15s; }
-        
-        body { 
-            margin: 0; 
-            font-family: 'Inter', system-ui, sans-serif; 
-            background: var(--bg); 
-            color: var(--text); 
-            height: 100vh; 
-            display: flex; 
-            flex-direction: column; 
+       
+        body {
+            margin: 0;
+            font-family: 'Inter', system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
             overflow: hidden;
-            text-rendering: optimizeLegibility; 
+            text-rendering: optimizeLegibility;
             -webkit-font-smoothing: antialiased;
         }
-
-        /* Scrollbars */
         ::-webkit-scrollbar { width: 8px; height: 8px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 20px; }
-        
-        /* Header & Navigation */
-        header { 
-            background: var(--panel-bg); 
-            padding: 12px 24px; 
-            border-bottom: 1px solid var(--border); 
-            display: flex; 
-            gap: 12px; 
-            align-items: center; 
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05); 
-            position: relative; 
+       
+        header {
+            background: var(--panel-bg);
+            padding: 12px 24px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            position: relative;
             z-index: 10;
         }
-        .brand-link { 
-            display: inline-flex !important; 
-            align-items: center !important; 
-            gap: 10px !important; 
-            text-decoration: none; 
-            margin-right: auto; 
-            cursor: pointer; 
-            user-select: none; 
+        .brand-link {
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 10px !important;
+            text-decoration: none;
+            margin-right: auto;
+            cursor: pointer;
+            user-select: none;
         }
-        .brand-logo-svg { 
-            display: block !important; 
-            flex-shrink: 0 !important; 
-            width: 28px !important; 
-            height: 28px !important; 
+        .brand-logo-svg {
+            display: block !important;
+            flex-shrink: 0 !important;
+            width: 28px !important;
+            height: 28px !important;
             transition: transform 0.15s ease;
         }
         .brand-link:hover .logo-text { color: var(--primary-hover); }
         .brand-link:hover .brand-logo-svg { transform: scale(1.05); }
-        .logo-text { 
-            font-weight: 800; 
-            font-size: 1.2rem; 
-            color: var(--primary); 
-            letter-spacing: -0.5px; 
-            transition: color 0.15s ease; 
+        .logo-text {
+            font-weight: 800;
+            font-size: 1.2rem;
+            color: var(--primary);
+            letter-spacing: -0.5px;
+            transition: color 0.15s ease;
         }
-        
+       
         .actions-group { display: flex; gap: 8px; }
-        
-        /* Workspace Layout */
-        .container { 
-            display: flex !important; 
-            flex-direction: column !important; 
-            width: 100% !important; 
-            flex: 1; 
-            overflow: hidden; 
-            padding: 16px 20px 4px 20px; 
-            gap: 20px; 
+       
+        .container {
+            display: flex !important;
+            flex-direction: column !important;
+            width: 100% !important;
+            flex: 1;
+            overflow: hidden;
+            padding: 16px 20px 4px 20px;
+            gap: 20px;
         }
         @media (min-width: 768px) {
             .container { flex-direction: row !important; height: 90vh !important; }
         }
-
-        .panel { 
-            flex: 1; 
-            display: flex; 
-            flex-direction: column; 
-            background: var(--panel-bg); 
-            border-radius: 12px; 
-            border: 1px solid var(--border); 
-            overflow: hidden; 
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); 
-            position: relative; 
+        .panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: var(--panel-bg);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+            position: relative;
         }
         .panel.hidden { display: none !important; }
-        
-        /* Toolbars & Submenus */
-        .panel-header { 
-            background: var(--bg); 
-            padding: 6px 16px; 
-            font-size: 0.8rem; 
-            font-weight: 700; 
-            color: var(--text-secondary); 
-            border-bottom: 1px solid var(--border); 
-            display: flex; 
-            align-items: center; 
-            justify-content: space-between; 
-            position: sticky; 
-            top: 0; 
-            z-index: 5; 
+       
+        .panel-header {
+            background: var(--bg);
+            padding: 6px 16px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 5;
         }
         .toolbar { display: flex !important; flex-wrap: wrap !important; gap: 4px !important; align-items: center; position: relative; }
-        .toolbar-btn { 
-            background: transparent; 
-            color: var(--text); 
-            border: 1px solid transparent; 
-            padding: 4px 8px; 
-            border-radius: 4px; 
-            font-size: 0.85rem; 
-            font-weight: 600; 
-            cursor: pointer; 
-            display: inline-flex; 
-            align-items: center; 
-            gap: 2px; 
-            user-select: none; 
+        .toolbar-btn {
+            background: transparent;
+            color: var(--text);
+            border: 1px solid transparent;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 2px;
+            user-select: none;
         }
         .toolbar-btn:hover { background: var(--border); }
         .toolbar-btn:disabled { opacity: 0.3; cursor: not-allowed; }
         .divider { width: 1px; height: 16px; background: var(--border); margin: 0 4px; }
         .header-btn { background: transparent; border: none; color: var(--primary); cursor: pointer; font-weight: 600; font-size: 0.75rem; padding: 2px 6px; border-radius: 4px; }
         .header-btn:hover { background: var(--border); }
-        
-        .find-replace-bar { 
-            background: var(--bg); 
-            padding: 6px 16px; 
-            border-bottom: 1px solid var(--border); 
-            display: flex; 
-            gap: 8px; 
-            align-items: center; 
-            font-size: 0.8rem; 
-            flex-wrap: wrap; 
-            position: sticky; 
-            top: 37px; 
-            z-index: 4; 
+       
+        .find-replace-bar {
+            background: var(--bg);
+            padding: 6px 16px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            font-size: 0.8rem;
+            flex-wrap: wrap;
+            position: sticky;
+            top: 37px;
+            z-index: 4;
         }
         .find-replace-bar input { background: var(--panel-bg); border: 1px solid var(--border); color: var(--text); padding: 4px 8px; border-radius: 6px; outline: none; width: 140px; }
-        .find-click-btn { cursor: pointer; background: var(--primary); color: white; font-weight: bold; padding: 5px 12px; border-radius: 6px; user-select: none; display: inline-flex; align-items: center; gap: 4px; border: none; }
+        .find-click-btn { cursor: pointer; background: var(--primary); color: white; font-weight: bold; padding: 5px 12px; border-radius: 6px; user-select: none; display: inline-flex; align-items: center; gap: 4px; border: none; font-size: 0.8rem; }
         .find-click-btn:hover { background: var(--primary-hover); }
-        
-        /* Editors & Backdrops */
+        .find-click-btn.secondary-find { background: var(--text-secondary); }
+        .find-click-btn.secondary-find:hover { background: var(--text); }
+       
         .editor-wrapper { flex: 1; position: relative; background: var(--textarea-bg); overflow: hidden; }
         textarea, .editor-backdrop, .preview-body { padding: 24px; font-size: 15px; line-height: 1.6; border: none; outline: none; }
         textarea, .editor-backdrop { position: absolute; top: 0; left: 0; width: 100%; height: 100%; font-family: 'Fira Code', Consolas, Monaco, monospace; white-space: pre-wrap; word-wrap: break-word; margin: 0; box-sizing: border-box; }
         textarea { background: transparent !important; color: var(--text); resize: none; z-index: 2; caret-color: var(--text); overflow-y: auto; }
+       
         .editor-backdrop { color: transparent; z-index: 1; pointer-events: none; overflow: hidden; background: transparent; }
-        
-        /* Preview Render Components */
+        .editor-backdrop mark, .preview-body mark { background: var(--search-match) !important; color: var(--search-match-text) !important; border-radius: 2px; box-shadow: 0 1px 2px rgba(0,0,0,0.1); }
+       
         .preview-body { flex: 1; background: var(--panel-bg); color: var(--text); overflow-y: auto; scroll-behavior: smooth; }
         .preview-body table { border-collapse: collapse; width: 100%; margin: 20px 0; font-size: 0.95rem; }
         .preview-body th, .preview-body td { border: 1px solid var(--border); padding: 10px 14px; text-align: left; }
@@ -203,24 +201,19 @@
         .preview-body pre { background: #151d30; padding: 16px; border-radius: 8px; overflow-x: auto; margin: 18px 0; }
         .preview-body code { font-family: 'Fira Code', monospace; background: rgba(79, 70, 229, 0.1); color: var(--primary); padding: 2px 6px; border-radius: 4px; font-size: 0.9rem; }
         .preview-body pre code { background: transparent; color: inherit; padding: 0; font-size: 0.85rem; }
-
-        /* UI Buttons */
         button.main-btn { padding: 8px 16px; border-radius: 8px; border: none; background: var(--primary); color: white; cursor: pointer; font-weight: 600; font-size: 0.85rem; }
         button.main-btn:hover { background: var(--primary-hover); }
         .btn-danger { background: #ef4444 !important; }
         .btn-danger:hover { background: #dc2626 !important; }
         .btn-secondary { background: var(--bg) !important; color: var(--text) !important; border: 1px solid var(--border) !important; }
-        
-        /* Footer Status Bar */
+       
         .status-bar { padding: 6px 24px; font-size: 0.75rem; color: var(--text-secondary); display: flex; gap: 16px; align-items: center; justify-content: flex-end; border-top: 1px solid var(--border); background: var(--panel-bg); position: relative; z-index: 10; }
         .save-indicator { margin-right: auto; font-weight: bold; display: flex; align-items: center; gap: 6px; }
         .save-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--success); display: inline-block; }
     </style>
 </head>
 <body>
-
 <input type="file" id="universal-file-picker" style="display: none;" accept=".md,.txt" onchange="handleUniversalFile(this)">
-
 <header>
     <a href="" class="brand-link" title="Reload Editor">
         <svg class="brand-logo-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
@@ -247,7 +240,6 @@
         <button onclick="clearEditor()" class="main-btn btn-danger">🗑️ Clear</button>
     </div>
 </header>
-
 <div class="container">
     <div class="panel" id="editor-panel">
         <div class="panel-header">
@@ -263,23 +255,24 @@
                     <button class="toolbar-btn" onclick="insertText('[', '](url)')">🔗 Link</button>
                     <button class="toolbar-btn" onclick="insertText('- [ ] ', '')">☑️ Todo</button>
                     <button class="toolbar-btn" onclick="insertText('- ', '')">⚫ List</button>
-                    <button class="toolbar-btn" onclick="insertText('| Header 1 | Header 2 |\n| :--- | :--- |\n| Cell 1   | Cell 2   |\n', '')">📊 Table</button>
+                    <button class="toolbar-btn" onclick="insertText('| Header 1 | Header 2 |\\n| :--- | :--- |\\n| Cell 1 | Cell 2 |\\n', '')">📊 Table</button>
                 </div>
             </span>
             <button class="header-btn" onclick="toggleFocus('editor')">[ ↔ ] Fullscreen</button>
         </div>
         <div class="find-replace-bar">
-            <button class="find-click-btn" onclick="scrollToNextMatch('left')">🔍 Find</button>
-            <input type="text" id="find-txt" placeholder="Search text...">
-            <span>🔄 Replace:</span>
+            <button class="find-click-btn" onclick="executeFind('left')">🔍 Find</button>
+            <input type="text" id="find-txt" placeholder="Search text..." oninput="handleSearchHighlight('left')">
+            <button class="find-click-btn secondary-find" onclick="executeReplace('left')">🔄 Replace</button>
             <input type="text" id="replace-txt" placeholder="With...">
+            <button class="find-click-btn secondary-find" onclick="executeReplaceAll('left')">🔁 Replace All</button>
         </div>
         <div class="editor-wrapper">
             <div id="backdrop" class="editor-backdrop"></div>
             <textarea id="editor" placeholder="Start typing..." spellcheck="false"></textarea>
         </div>
     </div>
-    
+   
     <div class="panel" id="preview-panel">
         <div class="panel-header">
             <span>
@@ -295,13 +288,15 @@
             <button class="header-btn" onclick="toggleFocus('preview')">[ ↔ ] Fullscreen</button>
         </div>
         <div class="find-replace-bar">
-            <button class="find-click-btn" onclick="scrollToNextMatch('right')">🔍 Find</button>
-            <input type="text" id="find-txt-right" placeholder="Search text...">
+            <button class="find-click-btn" onclick="executeFind('right')">🔍 Find</button>
+            <input type="text" id="find-txt-right" placeholder="Search text..." oninput="handleSearchHighlight('right')">
+            <button class="find-click-btn secondary-find" onclick="executeReplace('right')">🔄 Replace</button>
+            <input type="text" id="replace-txt-right" placeholder="With...">
+            <button class="find-click-btn secondary-find" onclick="executeReplaceAll('right')">🔁 Replace All</button>
         </div>
         <div id="preview" class="preview-body" contenteditable="true" spellcheck="false"></div>
     </div>
 </div>
-
 <div class="status-bar">
     <div class="save-indicator"><span id="save-dot" class="save-dot"></span><span id="save-status">● Saved</span></div>
     <span id="stat-words">Words: 0</span><span id="stat-chars">Chars: 0</span>
@@ -313,8 +308,11 @@
     const preview = document.getElementById('preview');
     const ePanel = document.getElementById('editor-panel');
     const pPanel = document.getElementById('preview-panel');
-    
-    const findInputLeft = document.getElementById('find-txt');
+   
+    const findLeft = document.getElementById('find-txt');
+    const replaceLeft = document.getElementById('replace-txt');
+    const findRight = document.getElementById('find-txt-right');
+    const replaceRight = document.getElementById('replace-txt-right');
 
     mermaid.initialize({ startOnLoad: false, theme: 'default', securityLevel: 'loose' });
     const turndownService = new TurndownService({ headingStyle: 'atx', codeBlockStyle: 'fenced', emDelimiter: '*', bulletListMarker: '-' });
@@ -323,7 +321,24 @@
     let historyIndex = -1;
     const maxHistorySize = 30;
 
-    // === КРИТИЧНИЙ КОНТРОЛЬ DRAG-AND-DROP (БЛОКУЄМО ПОВЕДІНКУ БРАУЗЕРА) ===
+    // === Default template ===
+    const enterpriseSeoTemplate = `# Welcome to MDtoTEXT
+
+This is a **premium** Markdown editor with live preview.
+
+## Features
+- Real-time WYSIWYG preview
+- Find & Replace in both panels
+- Undo / Redo
+- Export to Word / HTML / Markdown
+- Dark mode
+- Auto-save to localStorage
+
+> Start typing below...
+
+`;
+
+    // Drag & Drop
     window.addEventListener('dragover', (e) => e.preventDefault(), false);
     window.addEventListener('drop', (e) => e.preventDefault(), false);
 
@@ -334,118 +349,269 @@
             const file = e.dataTransfer.files[0];
             if (file) {
                 const reader = new FileReader();
-                reader.onload = (event) => { editor.value = event.target.result; saveHistoryState(); render(); };
+                reader.onload = (event) => { 
+                    editor.value = event.target.result; 
+                    saveHistoryState(); 
+                    render(); 
+                };
                 reader.readAsText(file);
             }
         });
     });
 
-    const enterpriseSeoTemplate = `# MDtoTEXT — Premium Enterprise Markdown Editor & WYSIWYG Live Preview Converter
+    function triggerUniversalOpen() { 
+        document.getElementById('universal-file-picker').click(); 
+    }
 
-Welcome to **MDtoTEXT**, the ultimate enterprise-grade online Markdown editor designed for high-performance documentation, real-time rich-text formatting, and seamless multi-format technical writing. 
-
-Engineered for content creators, software engineers, SEO specialists, and technical writers, MDtoTEXT provides a fully autonomous, privacy-focused browser environment to edit, optimize, and convert Markdown syntax to pristine structural text instantly.
-
----
-
-## ⚡ Enterprise Features & Performance Index
-
-* **Real-Time WYSIWYG Processing:** Experience zero-latency side-by-side synchronized rendering driven by an isolated, lightning-fast compiler engine.
-* **Complete Privacy & Local Security:** Your data never leaves your client machine. No cloud tracking, zero server logging, and maximum corporate security.
-* **Universal Multi-Format Export:** Convert operational structures instantly into fully styled Microsoft Word files (\`.doc\`), raw text Markdown (\`.md\`), or clean HTML scripts with a single click.
-* **Intuitive Drag-and-Drop Management:** Seamlessly drop files onto any workspace view to instantly parse system data structures into high-quality markup content.
-
----
-
-## 📊 Core Markdown Syntax & Live System Layouts
-
-### Technical Data Arrays (Dynamic Tables)
-| Feature Matrix | HTML Web Converter | Local Session Cache | Search Engine Indexed |
-| :--- | :--- | :--- | :--- |
-| **MDtoTEXT Engine** | Integrated (High Fidelity) | Automated Storage | Fully SEO Optimized |
-| **Legacy Systems** | Manual Parsing | Delayed Syncing | Unstructured Layouts |`;
-
-    function triggerUniversalOpen() { document.getElementById('universal-file-picker').click(); }
     function handleUniversalFile(input) {
-        const file = input.files[0]; if (!file) return;
+        const file = input.files[0]; 
+        if (!file) return;
         const reader = new FileReader();
-        reader.onload = (e) => { editor.value = e.target.result; saveHistoryState(); render(); };
-        reader.readAsText(file); input.value = '';
+        reader.onload = (e) => { 
+            editor.value = e.target.result; 
+            saveHistoryState(); 
+            render(); 
+        };
+        reader.readAsText(file); 
+        input.value = '';
     }
 
     function triggerUniversalSave() {
         const blob = new Blob([editor.value], { type: 'text/markdown;charset=utf-8' });
-        const link = document.createElement('a'); link.href = URL.createObjectURL(blob);
-        link.download = 'document.md'; link.click();
+        const link = document.createElement('a'); 
+        link.href = URL.createObjectURL(blob);
+        link.download = 'document.md'; 
+        link.click();
     }
 
-    function copyCleanHTML() { navigator.clipboard.writeText(preview.innerHTML).then(() => { alert('HTML Copied!'); }); }
+    function copyCleanHTML() { 
+        navigator.clipboard.writeText(preview.innerHTML).then(() => { 
+            alert('HTML Copied!'); 
+        }); 
+    }
+
     function exportWordSecure() {
         const htmlContent = `<html><body>${preview.innerHTML}</body></html>`;
         const blob = new Blob(['\ufeff' + htmlContent], { type: 'application/msword' });
-        const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'document.doc'; a.click();
+        const a = document.createElement('a'); 
+        a.href = URL.createObjectURL(blob); 
+        a.download = 'document.doc'; 
+        a.click();
     }
 
     function saveHistoryState() {
-        if (historyIndex < historyStack.length - 1) { historyStack = historyStack.slice(0, historyIndex + 1); }
+        if (historyIndex < historyStack.length - 1) { 
+            historyStack = historyStack.slice(0, historyIndex + 1); 
+        }
         historyStack.push(editor.value);
         if (historyStack.length > maxHistorySize) historyStack.shift();
         historyIndex = historyStack.length - 1;
     }
-    function undo() { if (historyIndex > 0) { historyIndex--; editor.value = historyStack[historyIndex]; render(true); } }
-    function redo() { if (historyIndex < historyStack.length - 1) { historyIndex++; editor.value = historyStack[historyIndex]; render(true); } }
+   
+    function undo() { 
+        if (historyIndex > 0) { 
+            historyIndex--; 
+            editor.value = historyStack[historyIndex]; 
+            render(true); 
+        } 
+    }
+    function redo() { 
+        if (historyIndex < historyStack.length - 1) { 
+            historyIndex++; 
+            editor.value = historyStack[historyIndex]; 
+            render(true); 
+        } 
+    }
 
-    editor.addEventListener('input', () => { render(); });
+    let inputTimeout;
+    editor.addEventListener('input', () => {
+        render(true);
+        clearTimeout(inputTimeout);
+        inputTimeout = setTimeout(() => { saveHistoryState(); }, 300);
+    });
+
     preview.addEventListener('input', () => {
         let convertedMarkdown = turndownService.turndown(preview.innerHTML);
         editor.value = convertedMarkdown;
+        updateMetrics(convertedMarkdown);
         applyBackdropHighlights(convertedMarkdown);
+        try { localStorage.setItem('doc', convertedMarkdown); } catch(e){}
     });
 
     editor.addEventListener('scroll', () => {
-        backdrop.scrollTop = editor.scrollTop; backdrop.scrollLeft = editor.scrollLeft;
-        const ratio = editor.scrollTop / (editor.scrollHeight - editor.clientHeight);
-        preview.scrollTop = ratio * (preview.scrollHeight - preview.clientHeight);
+        backdrop.scrollTop = editor.scrollTop; 
+        backdrop.scrollLeft = editor.scrollLeft;
+        const ratio = editor.scrollTop / (editor.scrollHeight - editor.clientHeight || 1);
+        preview.scrollTop = ratio * (preview.scrollHeight - preview.clientHeight || 1);
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'z') { e.preventDefault(); undo(); }
+        if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'y') { e.preventDefault(); redo(); }
     });
 
     function insertText(before, after) {
         const start = editor.selectionStart, end = editor.selectionEnd, text = editor.value;
         editor.value = text.substring(0, start) + before + text.substring(start, end) + after + text.substring(end);
+        editor.focus();
+        editor.selectionStart = editor.selectionEnd = start + before.length;
+        saveHistoryState();
         render();
+    }
+   
+    function insertTextAtPreview(before, after) {
+        insertText(before, after);
     }
 
     function updateMetrics(text) {
-        const chars = text.length; const words = text.trim() === '' ? 0 : text.trim().split(/\s+/).length;
+        const chars = text.length;
+        const words = text.trim() === '' ? 0 : text.trim().split(/\s+/).length;
         document.getElementById('stat-words').innerText = `Words: ${words}`;
         document.getElementById('stat-chars').innerText = `Chars: ${chars}`;
     }
 
     function applyBackdropHighlights(text) {
         let escapedText = text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        const searchStr = findLeft.value;
+       
+        if (searchStr && searchStr.trim() !== '') {
+            try {
+                const regex = new RegExp('(' + escapeRegExp(searchStr) + ')', 'gi');
+                escapedText = escapedText.replace(regex, '<mark>$1</mark>');
+            } catch(e){}
+        }
         backdrop.innerHTML = escapedText + '\n';
     }
 
-    function toggleFocus(mode) { if (mode === 'editor') pPanel.classList.toggle('hidden'); if (mode === 'preview') ePanel.classList.toggle('hidden'); }
-    function toggleTheme() { document.body.setAttribute('data-theme', document.body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'); }
+    function escapeRegExp(string) {
+        return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    }
+
+    function toggleFocus(mode) { 
+        if (mode === 'editor') pPanel.classList.toggle('hidden'); 
+        if (mode === 'preview') ePanel.classList.toggle('hidden'); 
+    }
+
+    function toggleTheme() { 
+        document.body.setAttribute('data-theme', document.body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'); 
+    }
 
     async function render(skipHistory = false) {
         const val = editor.value;
         preview.innerHTML = marked.parse(val);
         updateMetrics(val);
         applyBackdropHighlights(val);
-        preview.querySelectorAll('pre code').forEach((el) => { hljs.highlightElement(el); });
-        
+       
+        preview.querySelectorAll('pre code').forEach((el) => { 
+            hljs.highlightElement(el); 
+        });
+
+        if (findRight.value && findRight.value.trim() !== '') {
+            highlightPreviewTextSecure(findRight.value);
+        }
+       
         if (!skipHistory) {
             try { localStorage.setItem('doc', val); } catch(e){}
         }
     }
 
-    function clearEditor() { if(confirm('Clear all content?')) { editor.value = ''; render(); } }
+    function clearEditor() {
+        if(confirm('Clear all content?')) {
+            editor.value = '';
+            try { localStorage.removeItem('doc'); } catch(e){}
+            saveHistoryState();
+            render();
+        }
+    }
 
-    // === ПРИМУСОВИЙ СТАРТ ТЕКСТУ ===
+    function handleSearchHighlight(side) {
+        if (side === 'left') {
+            applyBackdropHighlights(editor.value);
+        } else {
+            render(true);
+        }
+    }
+
+    function highlightPreviewTextSecure(searchStr) {
+        if (!searchStr || searchStr.trim() === '') return;
+       
+        const r_text = escapeRegExp(searchStr);
+        const regex = new RegExp(r_text, 'gi');
+       
+        const textNodes = [];
+        const walk = document.createTreeWalker(preview, NodeFilter.SHOW_TEXT, null, false);
+        let node;
+        while (node = walk.nextNode()) {
+            if (node.parentNode.tagName !== 'MARK' && node.parentNode.tagName !== 'SCRIPT' && node.parentNode.tagName !== 'STYLE') {
+                textNodes.push(node);
+            }
+        }
+       
+        textNodes.forEach(node => {
+            const matches = node.nodeValue.match(regex);
+            if (matches) {
+                const parent = node.parentNode;
+                const fragments = document.createDocumentFragment();
+                let lastIndex = 0;
+               
+                node.nodeValue.replace(regex, (match, index) => {
+                    if (index > lastIndex) {
+                        fragments.appendChild(document.createTextNode(node.nodeValue.substring(lastIndex, index)));
+                    }
+                    const mark = document.createElement('mark');
+                    mark.textContent = match;
+                    fragments.appendChild(mark);
+                   
+                    lastIndex = index + match.length;
+                    return match;
+                });
+               
+                if (lastIndex < node.nodeValue.length) {
+                    fragments.appendChild(document.createTextNode(node.nodeValue.substring(lastIndex)));
+                }
+                parent.replaceChild(fragments, node);
+            }
+        });
+    }
+
+    function executeFind(side) {
+        const searchInput = side === 'left' ? findLeft : findRight;
+        const searchStr = searchInput.value;
+        if (!searchStr) return;
+        window.find(searchStr, false, false, true, false, true, false);
+    }
+
+    function executeReplace(side) {
+        const searchStr = side === 'left' ? findLeft.value : findRight.value;
+        const replaceStr = side === 'left' ? replaceLeft.value : replaceRight.value;
+        if (!searchStr) return;
+        let text = editor.value;
+        const regex = new RegExp(escapeRegExp(searchStr), 'i');
+        if (regex.test(text)) {
+            editor.value = text.replace(regex, replaceStr);
+            saveHistoryState();
+            render();
+            executeFind(side);
+        }
+    }
+
+    function executeReplaceAll(side) {
+        const searchStr = side === 'left' ? findLeft.value : findRight.value;
+        const replaceStr = side === 'left' ? replaceLeft.value : replaceRight.value;
+        if (!searchStr) return;
+        let text = editor.value;
+        const regex = new RegExp(escapeRegExp(searchStr), 'gi');
+        if (regex.test(text)) {
+            editor.value = text.replace(regex, replaceStr);
+            saveHistoryState();
+            render();
+        }
+    }
+
+    // Load saved document or default template
     let savedDoc = "";
     try { savedDoc = localStorage.getItem('doc'); } catch(e){}
-    
+   
     if (!savedDoc || savedDoc.trim().length < 10) {
         editor.value = enterpriseSeoTemplate;
     } else {
@@ -454,7 +620,7 @@ Engineered for content creators, software engineers, SEO specialists, and techni
 
     historyStack.push(editor.value);
     historyIndex = 0;
-    render(true);
+    render(false);
 </script>
 </body>
 </html>
